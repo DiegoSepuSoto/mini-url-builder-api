@@ -9,10 +9,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type expectedAuthRequest struct {
-	APIKey string `json:"api_key"`
-}
-
 func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		certificateBytes := []byte(os.Getenv("JWT_TOKEN_SEED"))
