@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:6.0.1
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: marketingDB
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+  redis:
+    image: redis:7.2.3-alpine3.18
+    restart: always
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
