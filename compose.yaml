@@ -3,6 +3,7 @@ version: "3.8"
 services:
   mongo:
     image: mongo:6.0.1
+    container_name: mongoMiniURL
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -14,6 +15,7 @@ services:
       - "27017"
   redis:
     image: redis:7.2.3-alpine3.18
+    container_name: redisMiniURL
     restart: always
     ports:
       - "6379:6379"

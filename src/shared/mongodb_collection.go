@@ -37,6 +37,6 @@ func CreateMongoDBCollection() *mongoDBCollection {
 	}
 
 	return &mongoDBCollection{
-		mongoCollection: client.Database("marketingDB").Collection("mini-urls"),
+		mongoCollection: client.Database("marketingDB").Collection("miniurls"),
 	}
 }

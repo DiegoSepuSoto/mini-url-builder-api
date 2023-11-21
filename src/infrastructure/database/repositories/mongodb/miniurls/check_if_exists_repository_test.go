@@ -32,7 +32,7 @@ func TestCheckIfExistsRepository(t *testing.T) {
 		miniURL, err := miniURLsRepository.GetIfExists(context.Background(), "www.google.cl")
 
 		assert.Nil(t, err)
-		assert.Equal(t, "/abc123", miniURL)
+		assert.Equal(t, "abc123", miniURL)
 	})
 
 	t.Run("when check if exists gets executed as expected and does not find record in the database", func(t *testing.T) {

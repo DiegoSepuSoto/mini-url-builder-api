@@ -27,7 +27,7 @@ func TestCreateMiniURLHandler(t *testing.T) {
 		mockShortenerUseCase.On("BuildMiniURL", mock.Anything, mock.AnythingOfType("string")).
 			Return(&models.MiniURLResponse{
 				Host:    "https://diego.sepu",
-				MiniURL: "/abc123",
+				MiniURL: "abc123",
 			}, nil)
 
 		shortenerHandler := NewShortenerHandler(e, mockShortenerUseCase)
@@ -43,7 +43,7 @@ func TestCreateMiniURLHandler(t *testing.T) {
 	t.Run("when create mini url handler sends an error from json decode", func(t *testing.T) {
 		e := echo.New()
 		rec := httptest.NewRecorder()
-		req := httptest.NewRequest(http.MethodPost, "/mini-url", strings.NewReader(`{"api_key":123,"original_url": "www.google.cl"}`))
+		req := httptest.NewRequest(http.MethodPost, "/mini-url", strings.NewReader(`<>`))
 
 		c := e.NewContext(req, rec)
 
@@ -52,7 +52,7 @@ func TestCreateMiniURLHandler(t *testing.T) {
 		mockShortenerUseCase.On("BuildMiniURL", mock.Anything, mock.AnythingOfType("string")).
 			Return(&models.MiniURLResponse{
 				Host:    "https://diego.sepu",
-				MiniURL: "/abc123",
+				MiniURL: "abc123",
 			}, nil)
 
 		shortenerHandler := NewShortenerHandler(e, mockShortenerUseCase)
@@ -62,13 +62,13 @@ func TestCreateMiniURLHandler(t *testing.T) {
 		assert.Nil(t, err)
 
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
-		assert.Contains(t, rec.Body.String(), `{"message":"there was an error processing the request"}`)
+		assert.Contains(t, rec.Body.String(), "there was an error processing the request")
 	})
 
 	t.Run("when create mini url handler sends an error from use case", func(t *testing.T) {
 		e := echo.New()
 		rec := httptest.NewRecorder()
-		req := httptest.NewRequest(http.MethodPost, "/mini-url", strings.NewReader(`{"api_key":"xyz789","original_url": "www.google.cl"}`))
+		req := httptest.NewRequest(http.MethodPost, "/mini-url", strings.NewReader(`{"original_url": "www.google.cl"}`))
 
 		c := e.NewContext(req, rec)
 
@@ -84,6 +84,6 @@ func TestCreateMiniURLHandler(t *testing.T) {
 		assert.Nil(t, err)
 
 		assert.Equal(t, http.StatusInternalServerError, rec.Code)
-		assert.Contains(t, rec.Body.String(), `{"message":"there was an error creating the mini url"}`)
+		assert.Contains(t, rec.Body.String(), "there was an error creating the mini url")
 	})
 }

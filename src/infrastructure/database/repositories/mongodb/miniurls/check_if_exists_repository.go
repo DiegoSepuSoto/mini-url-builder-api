@@ -2,7 +2,6 @@ package miniurls
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -29,5 +28,5 @@ func (r *miniURLsRepository) GetIfExists(ctx context.Context, originalURL string
 		return "", shared.BuildError(http.StatusInternalServerError, shared.DatabaseFindError, err.Error(), "miniURLsRepository")
 	}
 
-	return fmt.Sprintf("/%s", miniURLRecord.NewURL), nil
+	return miniURLRecord.NewURL, nil
 }

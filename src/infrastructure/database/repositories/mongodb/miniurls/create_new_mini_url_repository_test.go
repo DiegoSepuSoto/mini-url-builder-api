@@ -38,7 +38,7 @@ func TestCreateNewMiniURLRepository(t *testing.T) {
 		miniURL, err := miniURLsRepository.CreateNewMiniURL(context.Background(), "www.google.cl")
 
 		assert.Nil(t, err)
-		assert.Equal(t, "/000xOM", miniURL)
+		assert.Equal(t, "000xOM", miniURL)
 	})
 
 	t.Run("when create new mini url repository function gets an error from mongodb collection then returns the error", func(t *testing.T) {

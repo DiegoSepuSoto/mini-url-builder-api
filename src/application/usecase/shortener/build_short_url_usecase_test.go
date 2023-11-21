@@ -18,7 +18,7 @@ func TestBuildShortURLUseCase(t *testing.T) {
 		mockMiniURLRepository := new(miniURLsRepositoryMock)
 
 		mockMiniURLRepository.On("GetIfExists", mock.Anything, mock.AnythingOfType("string")).
-			Return("/abc123", nil)
+			Return("abc123", nil)
 
 		shortenerUseCase := NewShortenerUseCase(mockMiniURLRepository)
 
@@ -27,7 +27,7 @@ func TestBuildShortURLUseCase(t *testing.T) {
 		mockMiniURLRepository.AssertNotCalled(t, "CreateNewMiniURL")
 
 		assert.Nil(t, err)
-		assert.Equal(t, "/abc123", miniURLResponse.MiniURL)
+		assert.Equal(t, "abc123", miniURLResponse.MiniURL)
 		assert.Equal(t, "https://diego.sepu", miniURLResponse.Host)
 	})
 
@@ -38,14 +38,14 @@ func TestBuildShortURLUseCase(t *testing.T) {
 			Return("", shared.BuildError(http.StatusNotFound, shared.DatabaseNotFoundError, "not found in db", "miniURLsRepository"))
 
 		mockMiniURLRepository.On("CreateNewMiniURL", mock.Anything, mock.AnythingOfType("string")).
-			Return("/abc123", nil)
+			Return("abc123", nil)
 
 		shortenerUseCase := NewShortenerUseCase(mockMiniURLRepository)
 
 		miniURLResponse, err := shortenerUseCase.BuildMiniURL(context.Background(), "www.google.cl")
 
 		assert.Nil(t, err)
-		assert.Equal(t, "/abc123", miniURLResponse.MiniURL)
+		assert.Equal(t, "abc123", miniURLResponse.MiniURL)
 		assert.Equal(t, "https://diego.sepu", miniURLResponse.Host)
 	})
 
