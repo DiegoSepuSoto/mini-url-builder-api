@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/jwt"
+	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/metrics"
 	"os"
 	"os/signal"
 	"syscall"
@@ -42,6 +43,7 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 
+	metrics.NewMetricsHandler(e)
 	health.NewHealthHandler(e)
 	jwt.NewJWTHandler(e)
 

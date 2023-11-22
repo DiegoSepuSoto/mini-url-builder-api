@@ -1,10 +1,10 @@
 package shortener
 
 import (
-	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/middlewares"
 	"github.com/labstack/echo/v4"
 
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/application/usecase"
+	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/middlewares"
 )
 
 type shortenerHandler struct {
@@ -16,7 +16,7 @@ func NewShortenerHandler(e *echo.Echo, shortenerUseCase usecase.ShortenerUseCase
 		shortenerUseCase: shortenerUseCase,
 	}
 
-	g := e.Group("", middlewares.AuthMiddleware)
+	g := e.Group("", middlewares.APIMetricsMiddleware, middlewares.AuthMiddleware)
 
 	g.POST("/mini-url", h.CreateMiniURL)
 
