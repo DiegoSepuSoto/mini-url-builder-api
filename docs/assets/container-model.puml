@@ -1,0 +1,36 @@
+@startuml mini_url_container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/users.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(customer, "Company's customer")
+
+Enterprise_Boundary(CompanyBoundary, "Company's Network") {
+    Container_Ext(anySystem, "Company's System")
+
+    System_Boundary(b1, "Mini URLs Solution") {
+        ContainerDb(database, "Document-based Database", "Repository", "Stores created mini URLs and transactions")
+        ContainerDb(cache, "Cache Layer", "Repository", "Stores created MiniURLs for fast readings")
+
+        Container(distributedSync, "Distributed Sync", "Defines a set of IDs for Mini URL Builder API")
+        Container(builder, "Mini URL Builder API", "Creates new mini URL and stores it")
+        Container(service, "Mini URL Service", "Returns and serves given mini URLs")
+    }
+}
+
+Rel(customer, service, "Navigates to companies webs by redirects")
+Rel(anySystem, service, "Gets original URL from mini URL")
+
+Rel(service, cache, "Gets most used mini URLs")
+Rel(service, database, "Gets mini URL from given URL")
+
+Rel(builder, database, "Stores created mini URL")
+Rel(builder, distributedSync, "Asks for range of IDs to create")
+
+
+
+@enduml
