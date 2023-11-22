@@ -3,7 +3,7 @@
 ## Overview
 
 This Golang API will generate Mini URLs based on a given range of IDs
-and will store them in a mongoDB database
+and will store them in a mongoDB database.
 
 ## Local workspace
 
@@ -31,6 +31,13 @@ You can even run the whole solution using **docker compose**:
 ```bash
 make run-compose
 ```
+
+which create the full stack of the solution:
+- Redis cache
+- MongoDB
+- [Distributed Sync](https://github.com/DiegoSepuSoto/distributed-sync-mock)
+- [Mini URL Service](https://github.com/DiegoSepuSoto/mini-url-service)
+- Mini URL Builder API (this service)
 
 The available endpoint is the following:
 
