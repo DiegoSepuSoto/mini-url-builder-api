@@ -28,6 +28,10 @@ func (h *shortenerHandler) CreateMiniURL(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"message": "there was an error creating the mini url"})
 	}
 
+	log.WithFields(
+		log.Fields{"originalURL": createMiniURLRequest.OriginalURL, "miniURL": miniURLResponse.MiniURL},
+	).Info("mini url created successfully")
+
 	transformMiniURL(miniURLResponse)
 	return c.JSON(http.StatusCreated, miniURLResponse)
 }
