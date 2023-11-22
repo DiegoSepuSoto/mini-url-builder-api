@@ -1,0 +1,105 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This service will create a mini URL and send as a response",
+        "title": "Mini URL Builder API",
+        "contact": {
+            "name": "Diego Sepúlveda",
+            "url": "https://github.com/DiegoSepuSoto",
+            "email": "diegosepu.soto@gmail.com"
+        },
+        "version": "0.1"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/mini-url": {
+            "post": {
+                "description": "Returns as an API Response the created mini URL from a given one",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MiniURL"
+                ],
+                "summary": "Create Mini URL",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.CreateMiniURLRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MiniURLResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/shared.EchoErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/shared.EchoErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Application Error",
+                        "schema": {
+                            "$ref": "#/definitions/shared.EchoErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entities.CreateMiniURLRequest": {
+            "type": "object",
+            "properties": {
+                "original_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.MiniURLResponse": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string"
+                },
+                "mini_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "shared.EchoErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

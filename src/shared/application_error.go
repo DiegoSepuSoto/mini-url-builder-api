@@ -9,6 +9,10 @@ const (
 	SyncCommunicationError = "SYNC_COMM_ERROR"
 )
 
+type EchoErrorResponse struct {
+	Message string `json:"message"`
+}
+
 type ApplicationError struct {
 	ErrorCode        string
 	ErrorDescription string

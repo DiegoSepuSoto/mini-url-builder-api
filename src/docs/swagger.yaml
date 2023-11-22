@@ -1,0 +1,69 @@
+basePath: /
+definitions:
+  entities.CreateMiniURLRequest:
+    properties:
+      original_url:
+        type: string
+    type: object
+  models.MiniURLResponse:
+    properties:
+      host:
+        type: string
+      mini_url:
+        type: string
+    type: object
+  shared.EchoErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: diegosepu.soto@gmail.com
+    name: Diego Sepúlveda
+    url: https://github.com/DiegoSepuSoto
+  description: This service will create a mini URL and send as a response
+  title: Mini URL Builder API
+  version: "0.1"
+paths:
+  /mini-url:
+    post:
+      consumes:
+      - application/json
+      description: Returns as an API Response the created mini URL from a given one
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entities.CreateMiniURLRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MiniURLResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/shared.EchoErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/shared.EchoErrorResponse'
+        "500":
+          description: Application Error
+          schema:
+            $ref: '#/definitions/shared.EchoErrorResponse'
+      summary: Create Mini URL
+      tags:
+      - MiniURL
+swagger: "2.0"

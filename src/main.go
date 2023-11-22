@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/jwt"
-	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/metrics"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,15 +13,29 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/application/usecase/shortener"
+	_ "github.com/DiegoSepuSoto/mini-url-builder-api/src/docs"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/helpers"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/database/repositories/mongodb/miniurls"
+	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/docs"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/health"
+	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/jwt"
+	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/metrics"
 	shortenerHandler "github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/shortener"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/shared"
 )
 
 const closeAppTimeout = time.Second * 10
 
+// @title Mini URL Builder API
+// @version 0.1
+// @description This service will create a mini URL and send as a response
+
+// @contact.name Diego Sepúlveda
+// @contact.url https://github.com/DiegoSepuSoto
+// @contact.email diegosepu.soto@gmail.com
+
+// @host localhost:8080
+// @BasePath /
 func main() {
 	viper.Set("COUNTER_VALUE", -1)
 	viper.Set("COUNTER_MAX", -1)
@@ -45,6 +57,7 @@ func main() {
 
 	metrics.NewMetricsHandler(e)
 	health.NewHealthHandler(e)
+	docs.NewSwaggerHandler(e)
 	jwt.NewJWTHandler(e)
 
 	initShortenerHandler(e)
