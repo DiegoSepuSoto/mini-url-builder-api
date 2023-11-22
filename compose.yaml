@@ -21,3 +21,43 @@ services:
       - "6379:6379"
     expose:
       - "6379"
+  sync-mock:
+    image: diegosepusoto/distributed-sync-mock:main
+    container_name: sync-mock
+    environment:
+      APP_PORT: 8079
+    ports:
+      - "8079:8079"
+    expose:
+      - "8079"
+  builder-api:
+    image: diegosepusoto/mini-url-builder-api:main
+    container_name: builderAPI
+    restart: always
+    environment:
+      MINI_URLs_HOST: "http://localhost:8081"
+      MONGODB_URI: "mongodb://root:password@mongo:27017/marketingDB?authSource=admin"
+      SYNC_SERVICE_HOST: "http://sync-mock:8079"
+      JWT_TOKEN_SEED: supersecret
+      APP_PORT: 8080
+      APP_ENV: compose
+      APP_VERSION: 0.1
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+  service:
+    image: diegosepusoto/mini-url-service:main
+    container_name: service
+    environment:
+      DEFAULT_URL_REDIRECT: https://www.apple.com
+      MONGODB_URI: "mongodb://root:password@mongo:27017/marketingDB?authSource=admin"
+      JWT_TOKEN_SEED: supersecret
+      REDIS_HOST: "redis:6379"
+      APP_PORT: 8081
+      APP_ENV: compose
+      APP_VERSION: 0.1
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"

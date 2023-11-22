@@ -8,11 +8,11 @@ test t:
 
 run-compose rc:
 	@echo [Running Mini URL Solution in Docker Compose]
-	@docker compose up -d --build
+	@docker compose pull && docker compose up -d
 
 migrate-dbs mg:
 	@echo [Adding data to both MongoDB and Redis]
-	@docker exec -it mongoMiniURL bash -c 'mongosh marketingDB -u root -p password --authenticationDatabase admin --eval "db.miniurls.insertOne({ original_url: '\''https://www.google.com'\'', new_url: '\''abc123'\'' })"'
-	@docker exec -it redisMiniURL redis-cli set xyz789 "https://www.apple.com"
+	@docker exec -it mongoMiniURL bash -c 'mongosh marketingDB -u root -p password --authenticationDatabase admin --eval "db.miniurls.insertOne({ original_url: '\''https://www.amazon.com'\'', new_url: '\''abc123'\'' })"'
+	@docker exec -it redisMiniURL redis-cli set xyz789 "https://www.microsoft.com"
 
 .PHONY: run r run-compose rc migrate-dbs mg

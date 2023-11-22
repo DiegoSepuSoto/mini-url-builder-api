@@ -40,6 +40,7 @@ func main() {
 	e.HidePort = true
 	e.Use(middleware.CORS())
 	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
 
 	health.NewHealthHandler(e)
 	jwt.NewJWTHandler(e)
