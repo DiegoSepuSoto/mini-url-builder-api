@@ -8,3 +8,8 @@ datasources:
     version: 1
     editable: false
     isDefault: true
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus:9090
+    access: proxy
+    editable: true

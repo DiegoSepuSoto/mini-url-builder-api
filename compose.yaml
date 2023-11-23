@@ -79,7 +79,6 @@ services:
     command: -config.file=/mnt/config/loki-config.yaml
     ports:
       - 3100:3100
-
   promtail:
     image: grafana/promtail:2.2.1
     container_name: promtail
@@ -87,7 +86,14 @@ services:
       - ./compose-config/promtail.yaml:/etc/promtail/docker-config.yaml
       - /var/lib/docker/containers:/host/containers
     command: -config.file=/etc/promtail/docker-config.yaml
-
+  prometheus:
+    image: prom/prometheus:v2.30.3
+    container_name: prometheus
+    ports:
+      - "9000:9090"
+    volumes:
+      - ./compose-config/prometheus:/etc/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus-config.yaml
   grafana:
     image: grafana/grafana:10.2.2
     container_name: grafana
@@ -95,6 +101,7 @@ services:
       - ./compose-config/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
       - ./compose-config/grafana-dashboards/mini-urls-solution-full-logs.json:/usr/lib/dashboards/mini-urls-solution-full-logs/dashboard.json
       - ./compose-config/grafana-dashboards/mini-urls-usage-details.json:/usr/lib/dashboards/mini-urls-usage-details/dashboard.json
+      - ./compose-config/grafana-dashboards/mini-urls-solution-metrics.json:/usr/lib/dashboards/mini-urls-solution-metrics/dashboard.json
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
