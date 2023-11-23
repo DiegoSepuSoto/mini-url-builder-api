@@ -39,6 +39,12 @@ which create the full stack of the solution:
 - [Mini URL Service](https://github.com/DiegoSepuSoto/mini-url-service)
 - Mini URL Builder API (this service)
 
+There's also an option for you to insert basic data on both the data layers with:
+
+```bash
+make migrate-dbs
+```
+
 The available endpoint is the following:
 
 ```bash
