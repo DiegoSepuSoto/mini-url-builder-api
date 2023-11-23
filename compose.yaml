@@ -1,4 +1,11 @@
-version: "3.8"
+version: "3.9"
+
+name: mini-url-solution
+
+x-logging: &loki-logging
+  driver: json-file
+  options:
+    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
 services:
   mongo:
@@ -24,6 +31,7 @@ services:
   sync-mock:
     image: diegosepusoto/distributed-sync-mock:main
     container_name: sync-mock
+    logging: *loki-logging
     environment:
       APP_PORT: 8079
     ports:
@@ -34,6 +42,7 @@ services:
     image: diegosepusoto/mini-url-builder-api:main
     container_name: builderAPI
     restart: always
+    logging: *loki-logging
     environment:
       MINI_URLs_HOST: "http://localhost:8081"
       MONGODB_URI: "mongodb://root:password@mongo:27017/marketingDB?authSource=admin"
@@ -49,6 +58,7 @@ services:
   service:
     image: diegosepusoto/mini-url-service:main
     container_name: service
+    logging: *loki-logging
     environment:
       DEFAULT_URL_REDIRECT: https://www.apple.com
       MONGODB_URI: "mongodb://root:password@mongo:27017/marketingDB?authSource=admin"
@@ -61,3 +71,33 @@ services:
       - "8081:8081"
     expose:
       - "8081"
+  loki:
+    image: grafana/loki:2.2.1
+    container_name: loki
+    volumes:
+      - ./compose-config/loki-config.yaml:/mnt/config/loki-config.yaml
+    command: -config.file=/mnt/config/loki-config.yaml
+    ports:
+      - 3100:3100
+
+  promtail:
+    image: grafana/promtail:2.2.1
+    container_name: promtail
+    volumes:
+      - ./compose-config/promtail.yaml:/etc/promtail/docker-config.yaml
+      - /var/lib/docker/containers:/host/containers
+    command: -config.file=/etc/promtail/docker-config.yaml
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: grafana
+    volumes:
+      - ./compose-config/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./compose-config/grafana-dashboards/mini-urls-solution-full-logs.json:/usr/lib/dashboards/mini-urls-solution-full-logs/dashboard.json
+      - ./compose-config/grafana-dashboards/mini-urls-usage-details.json:/usr/lib/dashboards/mini-urls-usage-details/dashboard.json
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "3000:3000"
