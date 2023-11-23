@@ -41,7 +41,7 @@ func (h *shortenerHandler) CreateMiniURL(c echo.Context) error {
 	miniURLResponse, err := h.shortenerUseCase.BuildMiniURL(ctx, createMiniURLRequest.OriginalURL)
 	if err != nil {
 		log.Error(err)
-		return c.JSON(http.StatusInternalServerError, shared.EchoErrorResponse{
+		return c.JSON(shared.GetHTTPStatusErrorCode(err), shared.EchoErrorResponse{
 			Message: "there was an error creating the mini url",
 		})
 	}
