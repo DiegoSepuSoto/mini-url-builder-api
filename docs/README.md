@@ -13,7 +13,12 @@ different repositories, also known as a URL Shortener.
 
 The solution was built considering the later monitoring of its execution 
 with both logs and metrics. Some basic Grafana dashboards were created
-to aim for that goal:
+to aim for that goal. If you are running the solution using Docker compose,
+you can visit them yourself typing: **localhost:3000** in your browser
+
+### Mini URLs Solution (Prometheus) Metrics
+
+![Solution Metrics](./assets/solution-metrics-dashboard.gif "Solution Metrics")
 
 ### Mini URLs Solution Full Logs
 
@@ -22,5 +27,3 @@ to aim for that goal:
 ### Mini URLs Usage Details
 
 ![Usage Details](./assets/usage-details-dashboard.gif "Usage Details")
-
-### Prometheus metrics (pending)
