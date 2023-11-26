@@ -5,6 +5,7 @@ import (
 	"math/big"
 	"net/http"
 	"strings"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -20,6 +21,7 @@ func (r *miniURLsRepository) CreateNewMiniURL(ctx context.Context, originalURL s
 	newMiniURL := entities.MiniURLRecord{
 		OriginalURL: originalURL,
 		NewURL:      createNewURL(),
+		CreatedAt:   time.Now(),
 	}
 
 	_, err := r.mongoDBCollection.InsertOne(ctx, newMiniURL)

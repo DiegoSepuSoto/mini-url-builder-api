@@ -48,7 +48,7 @@ func (h *shortenerHandler) CreateMiniURL(c echo.Context) error {
 
 	log.WithFields(
 		log.Fields{"originalURL": createMiniURLRequest.OriginalURL, "miniURL": miniURLResponse.MiniURL},
-	).Info("mini url created successfully")
+	).Info("mini url sent successfully")
 
 	transformMiniURL(miniURLResponse)
 	return c.JSON(http.StatusCreated, miniURLResponse)
