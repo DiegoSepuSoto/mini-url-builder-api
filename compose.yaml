@@ -99,9 +99,10 @@ services:
     container_name: grafana
     volumes:
       - ./compose-config/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
-      - ./compose-config/grafana-dashboards/mini-urls-solution-full-logs.json:/usr/lib/dashboards/mini-urls-solution-full-logs/dashboard.json
-      - ./compose-config/grafana-dashboards/mini-urls-usage-details.json:/usr/lib/dashboards/mini-urls-usage-details/dashboard.json
-      - ./compose-config/grafana-dashboards/mini-urls-solution-metrics.json:/usr/lib/dashboards/mini-urls-solution-metrics/dashboard.json
+      - ./compose-config/grafana-dashboards/dashboard-config.yaml:/etc/grafana/provisioning/dashboards/main.yaml
+      - ./compose-config/grafana-dashboards/mini-urls-solution-full-logs.json:/var/lib/grafana/dashboards/mini-urls-solution-full-logs/dashboard.json
+      - ./compose-config/grafana-dashboards/mini-urls-usage-details.json:/var/lib/grafana/dashboards/mini-urls-usage-details/dashboard.json
+      - ./compose-config/grafana-dashboards/mini-urls-solution-metrics.json:/var/lib/grafana/dashboards/mini-urls-solution-metrics/dashboard.json
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
