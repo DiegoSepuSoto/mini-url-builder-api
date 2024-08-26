@@ -71,10 +71,17 @@ services:
       APP_PORT: 8081
       APP_ENV: compose
       APP_VERSION: 0.1
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4317
+      OTEL_RESOURCE_ATTRIBUTES: service.name=mini-url-service,service.version=1.0,deployment.environment=docker-compose
     ports:
       - "8081:8081"
     expose:
       - "8081"
+  jaeger:
+    image: jaegertracing/all-in-one:1.48
+    ports:
+      - "16686:16686"
   loki:
     image: grafana/loki:2.2.1
     container_name: loki
@@ -113,3 +120,13 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     ports:
       - "3000:3000"
+  collector:
+    image: otel/opentelemetry-collector:0.81.0
+    container_name: collector
+    hostname: collector
+    command: [ "--config=/etc/collector-config.yaml" ]
+    ports:
+      - "5555:5555"
+      - "6666:6666"
+    volumes:
+      - ./compose-config/collector-config.yaml:/etc/collector-config.yaml
