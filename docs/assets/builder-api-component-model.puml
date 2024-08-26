@@ -1,0 +1,29 @@
+@startuml mini_url_container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/users.puml
+
+LAYOUT_WITH_LEGEND()
+
+Enterprise_Boundary(CompanyBoundary, "Company's Network") {
+    System_Boundary(b1, "Mini URLs Solution") {
+        ContainerDb(database, "Document-based Database", "Repository", "Stores created mini URLs and transactions")
+        ContainerDb(cache, "Cache Layer", "Repository", "Stores created MiniURLs for fast readings")
+
+        Container_Boundary(api1, "Mini URL Builder API") {
+            Component(obtainRange, "Get unique range of IDs")
+            Component(createMiniURL, "Create Minified URL")
+        }
+
+        Container(distributedSync, "Distributed Sync", "Defines a set of IDs for Mini URL Builder API")
+    }
+}
+
+Rel(createMiniURL, database, "Stores created mini URL")
+Rel(createMiniURL, cache, "Stores created mini URL in cache")
+Rel(obtainRange, distributedSync, "Asks for range of IDs to create")
+
+@enduml

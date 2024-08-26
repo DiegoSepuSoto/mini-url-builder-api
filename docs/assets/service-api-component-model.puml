@@ -1,0 +1,35 @@
+@startuml mini_url_container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/users.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(customer, "Company's customer")
+
+Enterprise_Boundary(CompanyBoundary, "Company's Network") {
+    Container_Ext(backoffice, "Company's System")
+
+    System_Boundary(b1, "Mini URLs Solution") {
+        ContainerDb(database, "Document-based Database", "Repository", "Stores created mini URLs and transactions")
+        ContainerDb(cache, "Cache Layer", "Repository", "Stores created MiniURLs for fast readings")
+
+        Container_Boundary(api1, "Mini URL Service API") {
+            Component(getCachedMinifiedURL, "Search for cached Minified URL")
+            Component(getMinifiedURL, "Get Minified URL")
+            Component(returnMinifiedURL, "Return original URL")
+        }
+    }
+}
+
+Rel(returnMinifiedURL, customer, "Redirects to original URL")
+Rel(returnMinifiedURL, backoffice, "Returns to original URL")
+
+Rel(getCachedMinifiedURL, cache, "Stores created mini URL in cache")
+Rel(getMinifiedURL, database, "Stores created mini URL")
+
+
+@enduml

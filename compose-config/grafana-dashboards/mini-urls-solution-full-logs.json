@@ -83,7 +83,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{container_name=\"builderAPI\"} |= `mini url created successfully`",
+          "expr": "{container_name=\"builderAPI\"} |= `mini url sent successfully`",
           "legendFormat": "",
           "queryType": "range",
           "refId": "A"

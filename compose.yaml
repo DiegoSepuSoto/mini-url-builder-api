@@ -23,9 +23,9 @@ services:
   redis:
     image: redis:7.2.3-alpine3.18
     container_name: redisMiniURL
-    command: [ "/entrypoint.sh", "./redis-stack.conf" ]
-    healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory-policy", "volatile-lfu"]
+    environment:
+      - REDIS_MAXMEMORY=100mb
     restart: always
     ports:
       - "6379:6379"
@@ -49,6 +49,7 @@ services:
     environment:
       MINI_URLs_HOST: "http://localhost:8081"
       MONGODB_URI: "mongodb://root:password@mongo:27017/marketingDB?authSource=admin"
+      REDIS_HOST: "redis:6379"
       SYNC_SERVICE_HOST: "http://sync-mock:8079"
       JWT_TOKEN_SEED: supersecret
       APP_PORT: 8080
