@@ -23,6 +23,9 @@ services:
   redis:
     image: redis:7.2.3-alpine3.18
     container_name: redisMiniURL
+    command: [ "/entrypoint.sh", "./redis-stack.conf" ]
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
     restart: always
     ports:
       - "6379:6379"

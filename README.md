@@ -10,8 +10,7 @@ and will store them in a mongoDB database.
 First: clone the repository:
 
 ```bash
-git clone https://github.com/DiegoSepuSoto/mini-url-builder-api
-cd mini-url-builder-api
+git clone https://github.com/DiegoSepuSoto/mini-url-builder-api && cd mini-url-builder-api
 ```
 
 Then, download the dependencies

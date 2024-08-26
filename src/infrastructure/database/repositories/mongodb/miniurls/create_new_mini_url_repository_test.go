@@ -19,7 +19,7 @@ func TestCreateNewMiniURLRepository(t *testing.T) {
 		viper.Set("COUNTER_VALUE", 130000)
 		viper.Set("COUNTER_MAX", 140000)
 
-		newMiniURL := createNewURL()
+		newMiniURL := createNewMiniURL()
 
 		assert.Equal(t, "000xOM", newMiniURL)
 	})

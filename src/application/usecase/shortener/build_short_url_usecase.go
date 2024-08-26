@@ -34,6 +34,8 @@ func (u *shortenerUseCase) createMiniURL(ctx context.Context, originalURL string
 		return nil, err
 	}
 
+	u.miniURLsCacheRepository.CacheNewMiniURL(ctx, originalURL, miniURL)
+
 	return &models.MiniURLResponse{
 		Host:    os.Getenv("MINI_URLs_HOST"),
 		MiniURL: miniURL,

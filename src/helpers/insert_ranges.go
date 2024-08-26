@@ -1,11 +1,11 @@
 package helpers
 
 import (
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"regexp"
 	"strconv"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/repositories"

@@ -16,6 +16,7 @@ import (
 	_ "github.com/DiegoSepuSoto/mini-url-builder-api/src/docs"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/helpers"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/database/repositories/mongodb/miniurls"
+	cacheminiurls "github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/database/repositories/redis/miniurls"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/docs"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/health"
 	"github.com/DiegoSepuSoto/mini-url-builder-api/src/infrastructure/http/handlers/jwt"
@@ -71,8 +72,11 @@ func main() {
 
 func initShortenerHandler(e *echo.Echo) {
 	mongodbCollection := shared.CreateMongoDBCollection()
+	redisClient := shared.CreateRedisClient()
+
+	miniURLsCacheRepository := cacheminiurls.NewMiniURLsCacheRepository(redisClient)
 	miniURLsRepository := miniurls.NewMiniURLsRepository(mongodbCollection)
-	shortenerUseCase := shortener.NewShortenerUseCase(miniURLsRepository)
+	shortenerUseCase := shortener.NewShortenerUseCase(miniURLsRepository, miniURLsCacheRepository)
 	_ = shortenerHandler.NewShortenerHandler(e, shortenerUseCase)
 }
 

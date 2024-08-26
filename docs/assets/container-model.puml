@@ -10,7 +10,7 @@ LAYOUT_WITH_LEGEND()
 Person(customer, "Company's customer")
 
 Enterprise_Boundary(CompanyBoundary, "Company's Network") {
-    Container_Ext(anySystem, "Company's System")
+    Container_Ext(backoffice, "Company's System")
 
     System_Boundary(b1, "Mini URLs Solution") {
         ContainerDb(database, "Document-based Database", "Repository", "Stores created mini URLs and transactions")
@@ -22,8 +22,8 @@ Enterprise_Boundary(CompanyBoundary, "Company's Network") {
     }
 }
 
-Rel(customer, service, "Navigates to companies webs by redirects")
-Rel(anySystem, service, "Gets original URL from mini URL")
+Rel(customer, service, "Navigates to companies websites from HTTP redirects")
+Rel(backoffice, builder, "Requests a new mini URL to be created")
 
 Rel(service, cache, "Gets most used mini URLs")
 Rel(service, database, "Gets mini URL from given URL")
